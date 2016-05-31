@@ -1,6 +1,6 @@
 {
   "name": "bloodtype-validator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tiny module to check if given bloodtype is valid",
   "main": "bloodtype_validator.js",
   "scripts": {
