@@ -18,7 +18,7 @@ module.exports = function is_valid_bloodtype( bloodtype, strict_comparison, call
       else return false;
     }
 
-  var bloodtype_validation_regex = strict_comparison ? /^(a?b?|o)([+-])?$/i : /^(a?b?|o)([+-])$/i,
+  var bloodtype_validation_regex = strict_comparison ? /^(a?b?|o)([+-])$/i : /^(a?b?|o)([+-])?$/i,
       is_valid = false;
 
   is_valid = bloodtype_validation_regex.test( bloodtype.trim() );
