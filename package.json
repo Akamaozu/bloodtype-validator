@@ -1,0 +1,16 @@
+{
+  "name": "bloodtype-validator",
+  "version": "0.0.1",
+  "description": "Tiny module to check if given bloodtype is valid",
+  "main": "bloodtype_validator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "blood",
+    "bloodtype",
+    "validator"
+  ],
+  "author": "akamaozu <uzo@designbymobius.ca>",
+  "license": "MIT"
+}
