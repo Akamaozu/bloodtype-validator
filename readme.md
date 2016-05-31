@@ -8,6 +8,8 @@ Confirms Value is a Valid Bloodtype
 
 Installation
 -
+[![Build Status](https://travis-ci.org/Akamaozu/bloodtype-validator.svg?branch=master)](https://travis-ci.org/Akamaozu/bloodtype-validator)
+
 `npm install bloodtype-validator`
 
 Simple Validation
