@@ -3,7 +3,7 @@ BLOODTYPE-VALIDATOR
 ===============
 ---
 
-# Confirms Value is a Valid Bloodtype.
+Confirms Value is a Valid Bloodtype
 
 
 Installation
