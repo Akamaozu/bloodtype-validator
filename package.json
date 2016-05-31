@@ -4,7 +4,7 @@
   "description": "Tiny module to check if given bloodtype is valid",
   "main": "bloodtype_validator.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [
     "blood",
@@ -12,5 +12,9 @@
     "validator"
   ],
   "author": "akamaozu <uzo@designbymobius.ca>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "cjs-task": "0.0.8",
+    "mocha": "^2.5.3"
+  }
 }
