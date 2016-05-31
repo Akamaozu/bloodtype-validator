@@ -1,4 +1,5 @@
 var assert = require('assert'),
+    valid_bloodtypes = ['a', 'b', 'ab', 'o'],
     bloodtype_validator = require('../bloodtype_validator');
 
 describe('Bloodtype Validator Test Suite', function(){
@@ -55,6 +56,33 @@ describe('Bloodtype Validator Test Suite', function(){
       it('returns false if genotype indicator (+/-) is missing on strict comparison', function(){
 
         assert.equal( bloodtype_validator('a', 'strict'), false, 'did not return false when genotype indicator was missing' );
+      });
+
+      it('does not reject valid bloodtypes', function(){
+
+        valid_bloodtypes.forEach( function( bloodtype ){
+
+          assert.strictEqual( bloodtype_validator( bloodtype ), true, 'rejected "' + bloodtype + '"' );
+        });
+      });
+
+      it('rejects valid bloodtypes without genotype indictor on strict comparison', function(){
+
+        valid_bloodtypes.forEach( function( bloodtype ){
+
+          assert.strictEqual( bloodtype_validator( bloodtype, 'strict' ), false, 'accepted "' + bloodtype + '" as valid on strict comparison' );
+        });
+      });
+
+      it('is not case-sensitive', function(){
+
+        valid_bloodtypes.forEach( function( bloodtype ){
+
+          var bloodtype_to_check = bloodtype.toUpperCase();
+
+          assert.strictEqual( bloodtype_validator( bloodtype_to_check ), true, 'rejected uppercase "' + bloodtype + '"' );
+          assert.strictEqual( bloodtype_validator( bloodtype_to_check + '-', 'strict' ), true, 'rejected uppercase "' + bloodtype + '" on strict comparison' );
+        });
       });
     });
 
@@ -145,6 +173,98 @@ describe('Bloodtype Validator Test Suite', function(){
           assert.equal( error instanceof Error, false, 'returned an error object when genotype indicator was missing' );
           done();
         });
+      });
+
+      it('does not reject valid bloodtypes', function( done ){
+
+        var task = Task();
+
+        valid_bloodtypes.forEach( function( bloodtype ){
+
+          task.step('check if accepts ' + bloodtype, function(){
+
+            var bloodtype_to_check = arguments[0];
+
+            return function(){
+
+              bloodtype_validator( bloodtype_to_check, function( error, is_valid ){
+
+                assert.strictEqual( is_valid, true, 'rejected "' + bloodtype_to_check + '"' );
+                task.next();
+              });            
+            }
+          }( bloodtype ));          
+        });
+
+        task.callback( done );
+
+        task.start();
+      });
+
+      it('rejects valid bloodtypes without genotype indictor on strict comparison', function( done ){
+
+        var task = Task();
+
+        valid_bloodtypes.forEach( function( bloodtype ){
+
+          task.step('check if rejects ' + bloodtype + ' without genotype indicator', function(){
+
+            var bloodtype_to_check = arguments[0];
+
+            return function(){
+
+              bloodtype_validator( bloodtype_to_check, 'strict', function( error, is_valid ){
+
+                assert.strictEqual( is_valid, false, 'accepted "' + bloodtype_to_check + '" as valid on strict comparison' );
+                task.next();
+              });            
+            }
+          }( bloodtype ));          
+        });
+
+        task.callback( done );
+
+        task.start();
+      });
+
+      it('is not case-sensitive', function( done ){
+
+        var task = Task();
+
+        valid_bloodtypes.forEach( function( bloodtype ){
+
+          task.step('check if accepts uppercase' + bloodtype, function(){
+
+            var bloodtype_to_check = arguments[0].toUpperCase();
+
+            return function(){
+
+              bloodtype_validator( bloodtype_to_check, function( error, is_valid ){
+
+                assert.strictEqual( is_valid, true, 'rejected uppercase "' + bloodtype_to_check.toLowerCase() + '"' );
+                task.next();
+              });            
+            }
+          }( bloodtype ));
+
+          task.step('check if accepts uppercase' + bloodtype + 'on strict comparison', function(){
+
+            var bloodtype_to_check = arguments[0].toUpperCase();
+
+            return function(){
+
+              bloodtype_validator( bloodtype_to_check + '-', function( error, is_valid ){
+
+                assert.strictEqual( is_valid, true, 'rejected uppercase "' + bloodtype_to_check.toLowerCase() + '-" on strict comparison' );
+                task.next();
+              });            
+            }
+          }( bloodtype ));          
+        });
+
+        task.callback( done );
+
+        task.start();
       });
     });
   });
